@@ -1,0 +1,88 @@
+.gameboard__img {
+    width: 20rem;
+    height: 10rem;
+}
+.gameboard__btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.gameboard__taste-btn {
+    margin-top: 1rem;
+    width: 25rem;
+}
+.gameboard__taste-btn--fish-decoy-true {
+    &:active {
+        background-color: var(--decoy-bg-color);
+        animation: shake 0.1s;
+    }
+    &:focus {
+        background-color: var(--decoy-bg-color);
+    }
+    &:disabled {
+        display: none;
+    }
+}
+.gameboard__taste-btn--fish-decoy-false {
+    &:active {
+        background-color: var(--playing-bg-color);
+        transform: translateY(1px);
+    }
+    &:focus {
+        background-color: var(--playing-bg-color);
+    }
+}
+.gameboard__play-again-btn {
+    visibility: hidden;
+    margin-top: 1rem;
+    &--won {
+        visibility: visible;
+    }
+}
+
+.gameboard__fish-name {
+    display: none;
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.3rem;
+    &--won {
+        display: block;
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+    30% {
+        transform: translate(3px, 2px) rotate(0deg);
+    }
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+    70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+    }
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+    90% {
+        transform: translate(1px, 2px) rotate(0deg);
+    }
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}

@@ -1,0 +1,61 @@
+.landing-page__play-btn {
+  position: relative;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 2rem;
+  color: var(--btn-color);
+  background-color: var(--btn-bg-color);
+  z-index: 0;
+  overflow: hidden;
+
+  &:active {
+    background-color: --btn-bg-color;
+    transform: translateY(8px);
+  }
+
+  &::before {
+    content: "";
+    pointer-events: none;
+    opacity: 0.6;
+    background: radial-gradient(
+        circle at 20% 35%,
+        transparent 0,
+        transparent 2px,
+        var(--buble-color) 3px,
+        var(--buble-color) 4px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 75% 44%,
+        transparent 0,
+        transparent 2px,
+        var(--buble-color) 3px,
+        var(--buble-color) 4px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 46% 52%,
+        transparent 0,
+        transparent 4px,
+        var(--buble-color) 5px,
+        var(--buble-color) 6px,
+        transparent 6px
+      );
+
+    width: 100%;
+    height: 300%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    animation: bubbles 5s linear infinite both;
+  }
+}
+
+@keyframes bubbles {
+  from {
+    transform: translate();
+  }
+  to {
+    transform: translate(0, -66.666%);
+  }
+}

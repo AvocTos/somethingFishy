@@ -1,70 +1,82 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
-import { stateInterface, fish } from './App'
-import TasteButtons from './TasteButtons';
-import {v4 as uuidv4} from 'uuid';
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { SessionStateInterface, fishStateInterface, fish, gameStateInterface, stateOptions, } from "./helpers/interfaces";
+import { createIds, initializeDecoy, declarePlayer, playingFishImgSrc, playingFishName, } from "./helpers/gameBoardHelpers";
+import TasteButtons from "./TasteButtons";
+import PlayAgainBtn from "./PlayAgainBtn";
+import Loading from "./Loading";
+import Header from "./Header";
 
-interface props {
-    setState: Dispatch<SetStateAction<stateInterface>>,
-    State: stateInterface,
+interface GameBoardProps {
+  setSessionState: Dispatch<SetStateAction<SessionStateInterface>>;
+  setGameState: Dispatch<SetStateAction<gameStateInterface>>;
+  setFishState: Dispatch<SetStateAction<fishStateInterface>>;
+  FishState: fishStateInterface;
+  GameState: gameStateInterface;
 }
 
-const GameBoard = (props: props) => {
-//   const initFish = [
-//       { img:"", name:"", taste:"", decoy:true, id:"1" },
-//       { img:"", name:"", taste:"", decoy:true, id:"2" },
-//       { img:"", name:"", taste:"", decoy:true, id:"3" }
-//     ]
-
-//   const [Fishes, setFishes] = useState<fish[]>(initFish);
-
-  const createIds = (fishArray: [fish,fish,fish]) => {
-    const generateId = () => uuidv4();
-    fishArray.map((aFish: fish) => {
-        aFish.id = generateId();
-    });
-  }
-  const initializeDecoy = (fishArray: [fish,fish,fish]) => {
-    fishArray.map((aFish: fish) => {
-        aFish.decoy = true;
-    });
-  }
-  const declarePlayer = (fishArray: [fish,fish,fish]) => {
-    const generateRandomNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min) + min);
-    const randomIndex = generateRandomNumber(0, 3);
-    fishArray[randomIndex].decoy = false;
-  }
-
-  const getData = () => {
-    fetch('/api/fish')
-      .then((res) => res.json())
-      .then((fishArray) => {
-        createIds(fishArray)
-        initializeDecoy(fishArray)
-        declarePlayer(fishArray)
-        const newState = {
-            game_session: true,
-            fishes: fishArray,
-        }
-        props.setState(newState)
-      })
-    }
-
-const playFish = props.State ? console.log(props.State) : "nono";
-
+const GameBoard = (props: GameBoardProps) => {
   useEffect(() => {
-    getData()
-  }, [])
+    const getData = () => {
+      fetch("/api/fish")
+        .then((res) => res.json())
+        .then((fishArray) => {
+          createIds(fishArray);
+          initializeDecoy(fishArray);
+          declarePlayer(fishArray);
+          props.setFishState({ fishes: fishArray });
+          setTimeout(() => {
+            props.setGameState({ state: stateOptions.playing });
+          }, 200);
+        });
+    };
+    getData();
+  }, [props.GameState.state === stateOptions.prepareToPlay]);
 
+  const visibilityToggle = () => {
+    if (props.GameState.state === "won") {
+      return "gameboard__fish-name--won";
+    }
+    return "";
+  };
+
+  if (props.GameState.state === stateOptions.prepareToPlay) {
     return (
-        <>
-          <h2>GameBoard</h2>
-          <p>something Fishy</p>
-          <img src=""></img>
-          {props.State.fishes.map((aFish: fish) => (
-            <TasteButtons Fishes={props.State.fishes} aFish={ aFish } key={ aFish.id } />
+      <>
+        <Loading />
+      </>
+    );
+  } else {
+    const fishName = playingFishName(props.FishState.fishes);
+    const fishImg = playingFishImgSrc(props.FishState.fishes);
+    return (
+      <>
+        <Header />
+        <img className="gameboard__img" src={fishImg}></img>
+        <p className={"gameboard__fish-name " + visibilityToggle()}>
+          Congratulations!<br></br>
+          You found the {fishName}'s taste:
+        </p>
+
+        <section className="gameboard__btn-wrapper">
+          {props.FishState.fishes.map((aFish: fish) => (
+            <TasteButtons
+              setSessionState={props.setSessionState}
+              setGameState={props.setGameState}
+              GameState={props.GameState}
+              Fishes={props.FishState.fishes}
+              aFish={aFish}
+              key={aFish.id}
+            />
           ))}
-        </>
-      )
-}
+          <PlayAgainBtn
+            setFishState={props.setFishState}
+            setGameState={props.setGameState}
+            GameState={props.GameState}
+          />
+        </section>
+      </>
+    );
+  }
+};
 
 export default GameBoard;

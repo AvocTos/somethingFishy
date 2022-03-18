@@ -13,8 +13,9 @@ const returnFakeData = (res) => {
 
 app.get('/api/fish', cors(), (_, res) => {
   try {
-    // fetchFishData(res);
-    returnFakeData(res);
+    fetchFishData(res);
+    console.log('gotta aget');
+    // returnFakeData(res);
   } catch (error) {
     res.status(500);
     return res.send({ message: error.toString() });

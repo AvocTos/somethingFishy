@@ -1,43 +1,45 @@
-import React, { useState, useEffect } from 'react'
-import { stateInterface, fish } from './App'
+import React, { useState, Dispatch, SetStateAction } from "react";
+import { SessionStateInterface, fish, gameStateInterface, stateOptions, } from "./helpers/interfaces";
 
 interface TasteButtonsProps {
-    Fishes: fish[],
-    aFish: fish,
-    key: string,
+  setSessionState: Dispatch<SetStateAction<SessionStateInterface>>;
+  setGameState: Dispatch<SetStateAction<gameStateInterface>>;
+  GameState: gameStateInterface;
+  Fishes: fish[];
+  aFish: fish;
+  key: string;
 }
 
 const TasteButtons = (props: TasteButtonsProps) => {
   const fishArray = props.Fishes;
   const currentFish = props.aFish;
-  const fishIndex = fishArray.findIndex((obj: fish) => obj.name === currentFish.name);
+  const fishIndex = fishArray.findIndex(
+    (obj: fish) => obj.name === currentFish.name
+  );
   const clickedFish = fishArray[fishIndex];
 
-  const onclick = () => {
-      if(clickedFish.decoy) {
-        console.log('you clicked a decoy!')
-      } else {
-        console.log('you clicked the right fish!')
-        // update state to 
-      }
+  const gameHandler = () => {
+    if (!clickedFish.decoy) {
+      props.setGameState({ state: stateOptions.won });
+    }
     return undefined;
-  }
-
+  };
+  const disableOnWin = () =>
+    currentFish.decoy && props.GameState.state === "won";
   const decoyClass = currentFish.decoy.toString();
-
-  if(currentFish.decoy) {
-    return (
-        <>
-        <button onClick={onclick} className={"fish-decoy-" + decoyClass}>{currentFish.taste}</button>
-        </>
-    )
-  } else {
-    return (
-        <>
-        <button onClick={onclick} className={"fish-decoy-" + decoyClass}>{currentFish.taste}</button>
-        </>
-    )
-  }
-}
+  return (
+    <>
+      <button
+        onClick={gameHandler}
+        className={
+          "gameboard__taste-btn gameboard__taste-btn--fish-decoy-" + decoyClass
+        }
+        disabled={disableOnWin()}
+      >
+        {currentFish.taste}
+      </button>
+    </>
+  );
+};
 
 export default TasteButtons;

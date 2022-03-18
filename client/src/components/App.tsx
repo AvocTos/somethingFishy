@@ -1,53 +1,72 @@
-import React, { useState} from 'react';
-import LandingPage from './LandingPage';
-import GameBoard from './GameBoard';
-
-export interface stateInterface {
-  game_session: boolean,
-  fishes: fish[],
-}
-
-export interface fish {
-  img: string,
-  name: string,
-  taste: string,
-  decoy: boolean,
-  id: string,
-}
+import React, { useState } from "react";
+import {
+  SessionStateInterface,
+  fishStateInterface,
+  gameStateInterface,
+  stateOptions,
+} from "./helpers/interfaces";
+import LandingPage from "./LandingPage";
+import GameBoard from "./GameBoard";
+import Navbar from "./Navbar";
 
 const App = () => {
-  const [State, setState] = useState<stateInterface>({game_session: true, fishes: []})
-  const isPlaying = State.game_session;
-  
+  const [SessionState, setSessionState] = useState<SessionStateInterface>({
+    game_session: false,
+  });
+  const [FishState, setFishState] = useState<fishStateInterface>({
+    fishes: [],
+  });
+  const [GameState, setGameState] = useState<gameStateInterface>({
+    state: stateOptions.noState,
+  });
+
   const gameSessionToggle = () => {
-      if(isPlaying){
-        return (
-            <>
-            <GameBoard State={ State } setState={ setState } />
-            </>
-        )
-    } else {
-        return (
-            <>
-              <LandingPage setState={ setState } />
-            </>
-          )
+    if (SessionState.game_session === true) {
+      return (
+        <>
+          <Navbar
+            setFishState={setFishState}
+            setGameState={setGameState}
+            setSessionState={setSessionState}
+          />
+          <GameBoard
+            FishState={FishState}
+            GameState={GameState}
+            setSessionState={setSessionState}
+            setGameState={setGameState}
+            setFishState={setFishState}
+          />
+        </>
+      );
     }
-  }
+    if (SessionState.game_session === false) {
+      return (
+        <>
+          <LandingPage
+            setSessionState={setSessionState}
+            setGameState={setGameState}
+          />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <h1>Internal server Error, Please refresh page</h1>
+        </>
+      );
+    }
+  };
 
   return (
     <>
-    <div className="App">
-      <header className="App-header">
-      </header>
-      <main>
-        {gameSessionToggle()}
-      </main>
-      <footer>
-      </footer>
-    </div>
+      <div className="app">
+        <main className="app__main">{gameSessionToggle()}</main>
+        <footer className="app__footer">
+          <p className="app__footer-text">&copy; 2022 by Sandra Jonsson</p>
+        </footer>
+      </div>
     </>
   );
-}
+};
 
 export default App;

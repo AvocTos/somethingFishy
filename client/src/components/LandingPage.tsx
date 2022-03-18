@@ -1,17 +1,30 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { stateInterface } from './App'
+import React, { useState, Dispatch, SetStateAction } from "react";
+import { SessionStateInterface, gameStateInterface, stateOptions, } from "./helpers/interfaces";
+import Header from "./Header";
 
-interface props {
-    setState: Dispatch<SetStateAction<stateInterface>>,
+interface LandingPageProps {
+  setSessionState: Dispatch<SetStateAction<SessionStateInterface>>;
+  setGameState: Dispatch<SetStateAction<gameStateInterface>>;
 }
 
-const LandingPage = ( setState: props) => {
-        return (
-            <>
-              <h2>Landing Page</h2>
-              <button>Go Play!</button>
-            </>
-          )
-}
+const LandingPage = (props: LandingPageProps) => {
+  const prepareGameSession = () => {
+    props.setSessionState({ game_session: true });
+    props.setGameState({ state: stateOptions.prepareToPlay });
+    return undefined;
+  };
+
+  return (
+    <>
+      <nav className="app__nav"></nav>
+      <Header />
+      <section className="landing-page__btn-wrapper">
+        <button onClick={prepareGameSession} className="landing-page__play-btn">
+          Go Play!
+        </button>
+      </section>
+    </>
+  );
+};
 
 export default LandingPage;

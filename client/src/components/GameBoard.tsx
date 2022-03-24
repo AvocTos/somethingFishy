@@ -14,23 +14,27 @@ interface GameBoardProps {
   GameState: gameStateInterface;
 }
 
+
 const GameBoard = (props: GameBoardProps) => {
+  const getData = () => {
+    fetch("/api/fish")
+      .then((res) => res.json())
+      .then((fishArray) => {
+        createIds(fishArray);
+        initializeDecoy(fishArray);
+        declarePlayer(fishArray);
+        props.setFishState({ fishes: fishArray });
+        setTimeout(() => {
+          props.setGameState({ state: stateOptions.playing });
+        }, 200);
+      });
+  };
+  
   useEffect(() => {
-    const getData = () => {
-      fetch("/api/fish")
-        .then((res) => res.json())
-        .then((fishArray) => {
-          createIds(fishArray);
-          initializeDecoy(fishArray);
-          declarePlayer(fishArray);
-          props.setFishState({ fishes: fishArray });
-          setTimeout(() => {
-            props.setGameState({ state: stateOptions.playing });
-          }, 200);
-        });
-    };
-    getData();
-  }, [props.GameState.state === stateOptions.prepareToPlay]);
+    if(props.GameState.state === stateOptions.prepareToPlay) {
+      getData();
+    }
+  }, [props.GameState.state]);
 
   const visibilityToggle = () => {
     if (props.GameState.state === "won") {

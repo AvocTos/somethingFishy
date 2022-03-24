@@ -18,8 +18,11 @@ const threeRandomNumbers = () => {
     const max = 114;
     const min = 0;
     let result = [];
-    for (let i = 0; i < 3; i++) {
-        result.push(generateRandomNumber(min, max));
+    while(result.length < 3) {
+        const randomNum = generateRandomNumber(min, max);
+        if(!result.find(num => num === randomNum)){
+            result.push(randomNum);
+        }
     }
     return result;
 }
@@ -38,7 +41,7 @@ const getThreeRandomFish = (modifiedFishArr) => {
 }
 
 const fishTasteModifier = (taste, name) => {
-    const nameForSearch = name.replace(/ /gm, "|")
+    const nameForSearch = name.replace(/ *\b(?=\w)/, "").replace(/ *$/, "").replace(/ /gm, "|")
     const nameRegex = new RegExp(nameForSearch, "gmi");
     return taste
     .replace(/(?<=<).*?(?=>)/gm, "")
@@ -69,7 +72,6 @@ const AllFishFromAPI = async (res) => {
             res.json(threePlayableRandomFish)
         });
     } catch (error) {
-        console.log('went to error fetching fish')
         res.status(500);
         return res.send({ message: error.toString() });
     }

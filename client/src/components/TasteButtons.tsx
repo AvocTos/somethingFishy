@@ -24,8 +24,7 @@ const TasteButtons = (props: TasteButtonsProps) => {
     }
     return undefined;
   };
-  const disableOnWin = () =>
-    currentFish.decoy && props.GameState.state === "won";
+  const disableOnWin = () => currentFish.decoy && props.GameState.state === "won";
   const decoyClass = currentFish.decoy.toString();
   return (
     <>

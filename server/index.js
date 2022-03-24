@@ -4,7 +4,6 @@ import fakeFishData from './fakeData.js';
 import fetchFishData from './fetchedData.js';
 
 const app = express();
-
 const returnFakeData = (res) => {
   res.status(200)
      .setHeader('Content-Type', 'application/json')
@@ -13,6 +12,7 @@ const returnFakeData = (res) => {
 
 app.get('/api/fish', cors(), (_, res) => {
   try {
+    console.log('fetched');
     fetchFishData(res);
     // returnFakeData(res);
   } catch (error) {

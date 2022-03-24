@@ -66,11 +66,10 @@ const AllFishFromAPI = async (res) => {
         .then((modifiedData) => getThreeRandomFish(modifiedData))
         .then((threeRandomFish) => modifyFishTaste(threeRandomFish))
         .then((threePlayableRandomFish) => {
-            res.status(200)
-            .setHeader('Content-Type', 'application/json')
-            .json(threePlayableRandomFish);
+            res.json(threePlayableRandomFish)
         });
     } catch (error) {
+        console.log('went to error fetching fish')
         res.status(500);
         return res.send({ message: error.toString() });
     }

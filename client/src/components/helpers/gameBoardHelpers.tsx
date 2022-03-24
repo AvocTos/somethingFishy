@@ -1,4 +1,4 @@
-import { SessionStateInterface, fishStateInterface, fish } from './interfaces'
+import { fish } from './interfaces'
 import {v4 as uuidv4} from 'uuid';
 
 export const createIds = (fishArray: [fish,fish,fish]) => {

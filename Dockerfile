@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . /app
 
-EXPOSE 3000
+RUN npm run npm-i-client
 
-CMD [ "npm run dev" ]
+CMD [ "/app", "npm run dev" ]

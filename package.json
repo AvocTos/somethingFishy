@@ -9,8 +9,7 @@
     "server": "nodemon server/index.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "npm-i-client": "npm --prefix ./src install",
-    "setup": "concurrently \"npm install\" \"npm --prefix ./src install\" \"npm run server\" \"npm run client\""
+    "npm-i-client": "npm --prefix ./client install"
   },
   "author": "Sandra Jonsson",
   "devDependencies": {

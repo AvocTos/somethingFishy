@@ -1,15 +1,23 @@
 FROM node:16 AS ui-build
 
-WORKDIR /
+WORKDIR /usr/something-fishy/client
+COPY /client ./
+RUN npm install
+RUN npm run build
 
-COPY package.json ./
+FROM node:16 AS server-build
 
+WORKDIR /usr/something-fishy
+
+COPY --from=ui-build /usr/something-fishy/client/build/ ./client/build
+WORKDIR /usr/something-fishy/server/
+
+COPY /server/package*.json ./
 RUN npm install
 
-COPY ./client ./client
-
-RUN npm run npm-i-client
+COPY /server/db.js ./
+COPY /server/index.js ./
 
 EXPOSE 8080
 
-CMD [ "npm", "run dev" ]
+CMD [ "node", "index.js" ]

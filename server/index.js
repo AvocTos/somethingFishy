@@ -20,6 +20,12 @@ app.get('/api/fish', cors(), (_, res) => {
   }
 });
 
+app.get('/', (_, res) => {
+  const root = path.join(__dirname, '..', 'client', 'build');
+  app.use(express.static(root));
+  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+});
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => `Server running on port ${port}`);

@@ -1,11 +1,7 @@
 FROM node:16 AS ui-build
 
 WORKDIR /usr/somethingFishy/client
-
-COPY /client/package*.json ./
-COPY /client/public ./
-COPY /client/src ./
-COPY /client/tsconfig.json ./
+COPY /client ./
 
 RUN npm install
 RUN npm run build

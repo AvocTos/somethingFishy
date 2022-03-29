@@ -1,13 +1,15 @@
-FROM node:14-alpine
+FROM node:16 AS ui-build
 
-WORKDIR /app
+WORKDIR /
 
-COPY package.json /app/package.json
+COPY package.json ./
 
 RUN npm install
 
-COPY . /app
+COPY ./client ./client
 
 RUN npm run npm-i-client
 
-CMD [ "/app", "npm run dev" ]
+EXPOSE 8080
+
+CMD [ "npm", "run dev" ]

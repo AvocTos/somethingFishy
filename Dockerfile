@@ -12,10 +12,10 @@ WORKDIR /usr/somethingFishy
 COPY --from=ui-build /usr/somethingFishy/client/build/ ./client/build
 WORKDIR /usr/somethingFishy/server/
 
-COPY /server/package.json ./
+COPY /package.json ./
 RUN npm install
 
-COPY /server/index.js ./
+COPY /index.js ./
 
 EXPOSE 8080
 

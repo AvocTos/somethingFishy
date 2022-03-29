@@ -14,10 +14,12 @@ interface GameBoardProps {
   GameState: gameStateInterface;
 }
 
+// const proxy = "http://localhost:8080";
+const proxy = "https://something-fishy.herokuapp.com/";
 
 const GameBoard = (props: GameBoardProps) => {
   const getData = () => {
-    fetch("/api/fish")
+    fetch(`${proxy}/api/fish`)
       .then((res) => res.json())
       .then((fishArray) => {
         createIds(fishArray);

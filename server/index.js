@@ -20,6 +20,6 @@ app.get('/api/fish', cors(), (_, res) => {
   }
 });
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => `Server running on port ${port}`);

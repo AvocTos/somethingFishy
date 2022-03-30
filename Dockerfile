@@ -16,7 +16,7 @@ WORKDIR /usr/somethingFishy/
 COPY /package*.json ./
 RUN npm install
 
-COPY server/index.js ./server
+COPY server/ ./server
 
 EXPOSE 8080
 

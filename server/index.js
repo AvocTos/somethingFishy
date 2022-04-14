@@ -23,6 +23,7 @@ app.get('/api/fish', cors(), (_, res) => {
 });
 
 app.get('/', (_, res) => {
+  const __dirname = path.resolve();
   const root = path.join(__dirname, '..', 'client', 'build');
   app.use(express.static(root));
   res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));

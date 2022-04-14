@@ -2,8 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import fakeFishData from './fakeData.js';
 import fetchFishData from './fetchedData.js';
-
-const path = require('path');
+import path from 'path';
 
 const app = express();
 const returnFakeData = (res) => {

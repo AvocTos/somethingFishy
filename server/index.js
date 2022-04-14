@@ -3,6 +3,8 @@ import cors from 'cors';
 import fakeFishData from './fakeData.js';
 import fetchFishData from './fetchedData.js';
 
+const path = require('path');
+
 const app = express();
 const returnFakeData = (res) => {
   res.status(200)

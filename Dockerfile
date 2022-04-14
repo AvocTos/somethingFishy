@@ -7,7 +7,7 @@ RUN npm run build
 
 FROM node:16 AS server-build
 
-WORKDIR /usr/guess-who
+WORKDIR /usr/somethingFishy
 
 COPY --from=ui-build /usr/somethingFishy/client/build/ ./client/build
 WORKDIR /usr/somethingFishy/server/

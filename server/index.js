@@ -3,6 +3,7 @@ import cors from 'cors';
 import fakeFishData from './fakeData.js';
 import fetchFishData from './fetchedData.js';
 import path from 'path';
+import { dirname } from 'path';
 
 const app = express();
 const returnFakeData = (res) => {

@@ -19,7 +19,7 @@ const proxy = "https://something-fishy.herokuapp.com/";
 
 const GameBoard = (props: GameBoardProps) => {
   const getData = () => {
-    fetch(`${proxy}/api/fish`)
+    fetch(`${proxy}api/fish`)
       .then((res) => res.json())
       .then((fishArray) => {
         createIds(fishArray);
